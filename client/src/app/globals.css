@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --main-bg: #f0f4f8; /* A serene light gray-blue color for the main background */
+    --primary-color: #40739e; /* The naval blue color for primary elements */
+    --secondary-color: #5a89b5; /* A muted secondary blue color */
+    --tertiary-color: #324e7b; /* A darker blue shade for accents */
+    --complementary-primary-color: #e1a87a; /* A sandy beach color for complementary elements */
+    --complementary-secondary-color: #f7ce76; /* A golden sunset color for additional highlights */
+    --text-primary-color: #2d2d2d; /* Deep gray color for primary text */
+    --text-secondary-color: #666666; /* Medium gray for secondary text */
+    --cancel-button-color: #ff414d; /* A bright red color for cancel buttons */
+    --hover-cancel-button-color: #e12d39; /* A deeper red color for hover effect on cancel buttons */
+    --confirm-button-color: #22c55e; /* A crisp green color for confirm buttons */
+    --hover-confirm-button-color: #15803d; /* A forest green color for hover effect on confirm buttons */
+    --neutral-light: #d1dce5; /* Light neutral color for borders and dividers */
+    --neutral-dark: #3a506b; /* Dark blue-grey for text or background contrast */
+    --highlight-color: #ffca3a; /* A vibrant yellow as an accent color for highlights */
+  }
+}
