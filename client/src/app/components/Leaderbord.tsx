@@ -13,7 +13,7 @@ const Leaderbord = (props: Props) => {
   }
 
   return (
-    <MainWrapper title="Leaderboard">
+    <MainWrapper title="Virdx Challenge Leaderboard">
       <LeaderboardTable applicants={data} />
     </MainWrapper>
   );

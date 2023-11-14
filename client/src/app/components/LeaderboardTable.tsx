@@ -2,6 +2,8 @@ import React from 'react';
 import { Applicant } from '../hooks/useApplicants';
 import { ColumnFiltersState, SortingState, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { FaSortUp, FaSortDown } from "react-icons/fa6";
+import { Tooltip } from 'react-tooltip';
+import ApplicantModal from './ApplicantModal';
 
 
 
@@ -19,7 +21,7 @@ const Filter = ({ column, table }: { column: any, table: any }) => {
             type="text"
             defaultValue={firstValue}
             onChange={e => column.setFilterValue(e.target.value)}
-            placeholder={`Search ${column.id}`}
+            placeholder={`Filter...`}
             className="mt-2 p-1 border rounded w-full"
         />
     );
@@ -31,7 +33,14 @@ const LeaderboardTable = ({ applicants }: Props) => {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
-    const [globalFilter, setGlobalFilter] = React.useState('')
+    const [showApplicantModal, setShowApplicantModal] = React.useState(false)
+
+    const shortenText = (text: string, maxLength: number = 20) => {
+        if (text.length > maxLength) {
+            return text.slice(0, maxLength) + '...'
+        }
+        return text
+    }
 
 
     const columns = [
@@ -44,13 +53,17 @@ const LeaderboardTable = ({ applicants }: Props) => {
             cell: info => info.getValue()
         }),
         columnHelper.accessor('accuracy', {
-            header: 'Model Accuracy',
-            cell: info => info.getValue(),
+            header: 'Model Accuracy (%)',
+            cell: info => <div className='w-full text-center'>{info.getValue()}</div>,
+            meta: {
+                sortType: 'number',
+            }
         }),
         columnHelper.accessor('repo_link', {
-            header: 'Repo Link',
-            cell: info => <div className='w-28'>
-                <a href={info.getValue()} className='text-primary-color transition hover:underline' target='_blank'>{info.getValue()}</a>
+            header: 'Repository Link',
+            cell: info => <div className='overflow-hidden' data-tooltip-content={info.getValue()} data-tooltip-id={info.cell.id}>
+                <a href={info.getValue()} className='overflow-hidden text-primary-color transition hover:underline' target='_blank'>{info.getValue()}</a>
+                <Tooltip id={info.cell.id} />
             </div>
         }),
         columnHelper.accessor('status', {
@@ -59,28 +72,22 @@ const LeaderboardTable = ({ applicants }: Props) => {
         }),
         columnHelper.accessor('comment', {
             header: 'Comment',
-            cell: info => <div className=''> {info.getValue()}
+            cell: info => <div className='' data-tooltip-content={info.getValue()} data-tooltip-id={info.cell.id}> {shortenText(info.getValue(), 20)}
+                <Tooltip id={info.cell.id} style={{
+                    maxWidth: '400px'
+                }} />
             </div>
         }),
         columnHelper.accessor("feedback", {
             header: 'Feedback',
-            cell: info => <div className=''>
-                {info.getValue()}
+            cell: info => <div className='' data-tooltip-content={info.getValue()} data-tooltip-id={info.cell.id}>
+                {shortenText(info.getValue(), 20)}
+                <Tooltip id={info.cell.id} style={{
+                    maxWidth: '400px'
+                }} />
             </div>
         }),
     ];
-
-    const getSortIcon = (column: any) => {
-        if (column.getIsSorted() === 'asc') {
-            return <FaSortUp size={24} className="text-primary-color" />;
-        }
-        if (column.getIsSorted() === 'desc') {
-            return <FaSortDown size={24} className="text-primary-color" />;
-        }
-        return (
-            null
-        );
-    };
 
     const table = useReactTable({
         data: applicants,
@@ -92,7 +99,6 @@ const LeaderboardTable = ({ applicants }: Props) => {
         },
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
-        onGlobalFilterChange: setGlobalFilter,
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
@@ -102,21 +108,21 @@ const LeaderboardTable = ({ applicants }: Props) => {
             <table className="text-sm text-left text-gray-500 w-full border-collapse">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
+                        <tr key={headerGroup.id} >
                             {headerGroup.headers.map(header => (
-                                <th key={header.id} className="py-3 px-6 border border-gray-300">
-                                    <div
-                                        {...{
-                                            className: header.column.getCanSort()
-                                                ? 'cursor-pointer select-none'
-                                                : '',
-                                            onClick: header.column.getToggleSortingHandler(),
-                                        }}
-                                    >
-                                        <div className='flex flex-row items-center transition'>
+                                <th key={header.id} className="whitespace-nowrap py-3 px-6 border border-gray-300">
+                                    <div>
+                                        <div className={`flex flex-row items-center w-full justify-between transition-all group ${header.column.getCanSort() ? 'cursor-pointer select-none' : ''}`}
+                                            onClick={header.column.getToggleSortingHandler()}
+                                        >
                                             {flexRender(header.column.columnDef.header, header.getContext())}
-                                            <div className='flex flex-col justify-center items-center ml-2 w-2'>
-                                                {getSortIcon(header.column)}
+                                            <div className='relative flex flex-col justify-center items-center ml-2 w-2'>
+                                                <FaSortUp size={24} className={`text-primary-color ${header.column.getIsSorted() === 'asc'
+                                                    ? 'opacity-100' : header.column.getIsSorted() !== 'desc' ? 'opacity-30 duration-300 group-hover:opacity-50' : 'opacity-30'
+                                                    }`} />
+                                                <FaSortDown size={24} className={`absolute text-primary-color ${header.column.getIsSorted() === 'desc' ?
+                                                    'opacity-100' : header.column.getIsSorted() === 'asc' ? 'opacity-30 group-hover:opacity-50' : 'opacity-30'
+                                                    }`} />
                                             </div>
                                         </div>
                                         {header.column.getCanFilter() ? (
@@ -132,19 +138,19 @@ const LeaderboardTable = ({ applicants }: Props) => {
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} className="bg-white border-b transition hover:bg-gray-50">
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={`py-4 px-6 border border-gray-300 ${cell.column.id === 'accuracy' ? 'text-lg font-semibold' : ''}`}>
-                                    <div className='flex items-center h-10 overflow-hidden'>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </div>
-                                </td>
-                            ))}
+                        <tr key={row.id} className="bg-white border-b transition hover:bg-gray-50 cursor-pointer" onClick={() => setShowApplicantModal(true)}> {row.getVisibleCells().map(cell => (
+                            <td key={cell.id} className={`px-2 py-2 border-y-2 border-gray ${cell.column.id === 'accuracy' ? 'text-lg font-semibold' : ''}`}>
+                                <div className='flex items-center h-10 shrink-0 w-44'>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </div>
+                            </td>
+                        ))}
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+            <ApplicantModal isOpen={showApplicantModal} closeModal={() => setShowApplicantModal(false)} />
+        </div >
 
     );
 };

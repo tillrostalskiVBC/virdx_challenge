@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`${inter.className} bg-main-bg text-text-primary h-screen w-screen`}
       >
         <div className="flex h-full w-full">
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 h-full w-full">{children}</main>
         </div>
       </body>
     </html>
