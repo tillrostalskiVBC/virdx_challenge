@@ -3,9 +3,12 @@ from pydantic import BaseModel
 
 
 class ApplicantBase(BaseModel):
-    full_name: str
     github_name: str
+    full_name: Optional[str] = None
     accuracy: Optional[float] = None
+    comment: Optional[str] = None
+    feedback: Optional[str] = None
+    repo_link: Optional[str] = None
 
 
 class ApplicantCreate(ApplicantBase):

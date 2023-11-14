@@ -1,12 +1,20 @@
 import React from "react";
 import MainWrapper from "./MainWrapper";
+import LeaderboardTable from "./LeaderboardTable";
+import useApplicants from "../hooks/useApplicants";
 
-interface Props {}
+interface Props { }
 
 const Leaderbord = (props: Props) => {
+  const { data, isLoading, error } = useApplicants()
+
+  if (isLoading || !data) {
+    return <div>Loading...</div>
+  }
+
   return (
     <MainWrapper title="Leaderboard">
-      <div></div>
+      <LeaderboardTable applicants={data} />
     </MainWrapper>
   );
 };
