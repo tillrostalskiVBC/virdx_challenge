@@ -8,6 +8,10 @@ export interface Applicant {
     accuracy: number;
     full_name: string;
     github_name: string;
+    comment: string;
+    feedback: string;
+    repo_link: string;
+    status: string;
 }
 
 const useApplicants = () => {
