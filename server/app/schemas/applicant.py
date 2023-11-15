@@ -9,6 +9,7 @@ class ApplicantBase(BaseModel):
     comment: Optional[str] = None
     feedback: Optional[str] = None
     repo_link: Optional[str] = None
+    rating: Optional[int] = None
 
 
 class ApplicantCreate(ApplicantBase):
