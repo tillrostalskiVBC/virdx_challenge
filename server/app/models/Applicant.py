@@ -13,7 +13,7 @@ class Applicant(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     github_name: Mapped[str] = mapped_column(index=True, unique=True)
-    repo_link: Optional[str] = mapped_column(index=True, unique=True)
+    repo_link: Mapped[str] = mapped_column(index=True, unique=True)
     full_name: Mapped[Optional[str]]
     comment: Mapped[Optional[str]]
     feedback: Mapped[Optional[str]]

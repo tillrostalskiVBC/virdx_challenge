@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app import schemas, models
 from app.db.dependency import get_db
-from server.app.logic.applicant import _update_applicant, get_applicant_by_github
+from app.logic.applicant import _update_applicant, get_applicant_by_github
 
 router = APIRouter()
 
