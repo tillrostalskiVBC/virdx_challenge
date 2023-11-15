@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app import schemas, models
 from app.db.dependency import get_db
+from server.app.logic.applicant import _update_applicant, get_applicant_by_github
 
 router = APIRouter()
 
@@ -23,14 +24,18 @@ def read_applicant(id: int, db: Session = Depends(get_db)) -> Any:
     return db_applicant
 
 
-@router.post(path="/", response_model=schemas.ApplicantCreate)
-def create_applicant(
+@router.post(path="/create-or-update", response_model=schemas.ApplicantCreate)
+def create_or_update_applicant(
     applicant: schemas.ApplicantCreate, db: Session = Depends(get_db)
 ) -> Any:
-    db_applicant = models.Applicant(**applicant.model_dump())
-    db.add(db_applicant)
-    db.commit()
-    db.refresh(db_applicant)
+    db_applicant = get_applicant_by_github(db, applicant.github_name)
+    if db_applicant:
+        _update_applicant(db, db_applicant, applicant)
+    else:
+        db_applicant = models.Applicant(**applicant.model_dump())
+        db.add(db_applicant)
+        db.commit()
+        db.refresh(db_applicant)
     return db_applicant
 
 
@@ -54,12 +59,7 @@ def update_applicant(
     if not db_applicant:
         raise HTTPException(status_code=404, detail="Applicant not found")
 
-    for key, value in updated_data.model_dump().items():
-        setattr(db_applicant, key, value)
-
-    db.commit()
-    db.refresh(db_applicant)
-    return db_applicant
+    return _update_applicant(db, db_applicant, updated_data)
 
 
 @router.delete("/{id}", response_model=schemas.ApplicantInDB)
