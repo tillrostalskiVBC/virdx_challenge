@@ -26,13 +26,10 @@ const ApplicantModal: React.FC<Props> = ({ isOpen, closeModal, applicant }) => {
           <a
             className="text-blue-500 hover:underline"
             href={applicant.repo_link}
+            target="_blank"
           >
             View Repository
           </a>
-        </div>
-        <div className="flex mb-2 w-full justify-between border-2 rounded p-2">
-          <span className="font-semibold">Status: </span>
-          <span>{applicant.status || "Pending"}</span>
         </div>
         <div className="mb-2 w-full justify-between border-2 rounded p-2">
           <label className="font-semibold">Comment: </label>

@@ -139,6 +139,15 @@ const LeaderboardTable = ({ applicants }: Props) => {
         </div>
       ),
     }),
+    columnHelper.accessor("created_at", {
+      header: "Created At",
+      cell: (info) => (
+        <div className="w-full text-center">{info.getValue()}</div>
+      ),
+      meta: {
+        sortType: "datetime",
+      },
+    }),
   ];
 
   const table = useReactTable({

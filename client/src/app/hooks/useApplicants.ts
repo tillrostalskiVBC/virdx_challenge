@@ -13,11 +13,13 @@ export interface Applicant {
   repo_link: string;
   rating?: number;
   rank?: number;
+  created_at: string;
 }
 
 const useApplicants = () => {
   const endpoint = applicantsEndpoint;
   const { data, isLoading, error } = useSWR<Applicant[]>(endpoint, fetcher);
+  console.log(data);
   return {
     data,
     isLoading,

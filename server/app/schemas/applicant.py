@@ -22,3 +22,4 @@ class ApplicantUpdate(ApplicantBase):
 
 class ApplicantInDB(ApplicantBase):
     id: int
+    created_at: str
