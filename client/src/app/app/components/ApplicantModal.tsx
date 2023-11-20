@@ -1,6 +1,6 @@
 import React from "react";
 import ModalWrapper from "./ModalWrapper";
-import { Applicant } from "../hooks/useApplicants";
+import { Applicant } from "../../hooks/useApplicants";
 import StarRating from "./StarRating";
 
 interface Props {

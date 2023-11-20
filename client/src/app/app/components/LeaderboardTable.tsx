@@ -1,5 +1,5 @@
 import React from "react";
-import { Applicant } from "../hooks/useApplicants";
+import { Applicant } from "../../hooks/useApplicants";
 import {
   ColumnFiltersState,
   SortingState,

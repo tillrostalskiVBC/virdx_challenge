@@ -1,9 +1,9 @@
 import React from "react";
 import MainWrapper from "./MainWrapper";
 import LeaderboardTable from "./LeaderboardTable";
-import useApplicants from "../hooks/useApplicants";
-import { availableChallenges } from "../constants";
-import { computeRanks } from "../utils/ApplicantUtils";
+import useApplicants from "../../hooks/useApplicants";
+import { availableChallenges } from "../../constants";
+import { computeRanks } from "../../utils/ApplicantUtils";
 
 interface Props {}
 

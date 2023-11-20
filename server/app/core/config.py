@@ -1,3 +1,4 @@
+import secrets
 from typing import Optional
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
@@ -9,6 +10,8 @@ class Settings(BaseSettings):
     # api
     PROJECT_NAME: str = "Virdx Apply"
     API_V1_STR: str = "/api/v1"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    SECRET_KEY: str = secrets.token_urlsafe(32)
 
     # github
     GITHUB_API_TOKEN: str
