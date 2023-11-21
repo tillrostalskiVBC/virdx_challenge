@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./Footer";
 
 interface Props {
   title: string;
@@ -15,6 +16,7 @@ const MainWrapper = (props: Props) => {
         </span>
       </div>
       {children}
+      <Footer />
     </div>
   );
 };

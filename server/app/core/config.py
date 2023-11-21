@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Virdx Apply"
     API_V1_STR: str = "/api/v1"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
-    SECRET_KEY: str = secrets.token_urlsafe(32)
+    SECRET_KEY: str
 
     # github
     GITHUB_API_TOKEN: str
@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = "virdx_challenge"
     POSTGRES_PORT: str = "5432"
     POSTGRES_HOST: str = "127.0.0.1"
+    FIRST_SUPERUSER_EMAIL: str
+    FIRST_SUPERUSER_PASSWORD: str
+    FIRST_SUPERUSER_FULL_NAME: str
 
     @property
     def postgres_url(self):
