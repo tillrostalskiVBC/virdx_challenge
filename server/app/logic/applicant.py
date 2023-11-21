@@ -42,3 +42,19 @@ def delete_applicant(db: Session, applicant_id: int):
         db.commit()
         return True
     return False
+
+
+def get_all_ratings(db: Session, applicant_id: int) -> list[models.Rating]:
+    return (
+        db.query(models.Rating)
+        .filter(models.Rating.applicant_id == applicant_id)
+        .first()
+    )
+
+
+def get_all_comments(db: Session, applicant_id: int) -> list[models.Comment]:
+    return (
+        db.query(models.Comment)
+        .filter(models.Comment.applicant_id == applicant_id)
+        .first()
+    )

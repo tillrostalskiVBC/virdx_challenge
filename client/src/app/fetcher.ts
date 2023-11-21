@@ -3,7 +3,15 @@ import { removeCookie } from "./api";
 import { toastInfo } from "./toasts";
 import { accessTokenName } from "./constants";
 
-export const fetcher = async (url: string): Promise<any> => {
+interface FetcherOptions {
+  method?: "GET" | "POST";
+  body?: BodyInit | null;
+}
+
+export const fetcher = async (
+  url: string,
+  options?: FetcherOptions
+): Promise<any> => {
   const accessToken = Cookies.get(accessTokenName);
   const headers: { [key: string]: string } = {};
 
@@ -12,11 +20,21 @@ export const fetcher = async (url: string): Promise<any> => {
     headers["Authorization"] = `${accessToken}`;
   }
 
-  const res = await fetch(url, {
+  // Set default fetch options
+  const fetchOptions: RequestInit = {
     headers: headers,
-  });
+    method: options?.method || "GET",
+  };
 
-  if (res.status === 401) {
+  // Add body if method is POST and body is provided
+  if (fetchOptions.method === "POST" && options?.body) {
+    fetchOptions.body = options.body;
+    headers["Content-Type"] = "application/json";
+  }
+
+  const res = await fetch(url, fetchOptions);
+
+  if ([401, 403].includes(res.status)) {
     removeCookie();
     window.location.href = "/";
     toastInfo("You have been logged out");

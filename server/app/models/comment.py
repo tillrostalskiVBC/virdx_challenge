@@ -20,7 +20,7 @@ class Comment(Base):
     )
 
     user = relationship("User", back_populates="comments")
-    applicant = relationship("Applicant", back_populates="comments")
+    applicant = relationship("Applicant", back_populates="discussion")
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

@@ -20,7 +20,7 @@ class Applicant(Base):
     accuracy: Mapped[Optional[float]]
 
     ratings = relationship("Rating", back_populates="applicant")
-    comments = relationship("Comment", back_populates="applicant")
+    discussion = relationship("Comment", back_populates="applicant")
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

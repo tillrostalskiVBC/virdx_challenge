@@ -1,33 +1,32 @@
 "use client";
 import React from "react";
-import Leaderbord from "./components/Leaderbord";
-import LeftSidebar from "./components/LeftSidebar";
+import Leaderbord from "./leaderboard/components/Leaderbord";
 import useMe from "../hooks/useMe";
 import Spinner from "../components/Spinner";
-import Footer from "./components/Footer";
+import MainWrapper from "./components/MainWrapper";
+import { availableChallenges } from "../constants";
 
 const Home = () => {
-  const [activeComponent, setActiveComponent] = React.useState("leaderboard");
-
   const { me, isLoading, error } = useMe();
-
-  const changeActiveComponent = (component: string) => {
-    setActiveComponent(component);
-  };
-
-  const renderComponent = {
-    leaderboard: <Leaderbord />,
-  };
 
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="flex h-full w-full">
-      <LeftSidebar changeActiveComponent={changeActiveComponent} />
-      <div className="flex flex-col h-full w-full">
-        {renderComponent[activeComponent as keyof typeof renderComponent]}
+    <MainWrapper>
+      <div className="flex items-center justify-between">
+        <span className="text-2xl font-semibold text-secondary-color">
+          Leaderboard
+        </span>
+        <select placeholder="Select Challenge" className="border p-2 rounded">
+          {availableChallenges.map((challenge) => (
+            <option value={challenge} key={challenge}>
+              {challenge}
+            </option>
+          ))}
+        </select>
       </div>
-    </div>
+      <Leaderbord />
+    </MainWrapper>
   );
 };
 

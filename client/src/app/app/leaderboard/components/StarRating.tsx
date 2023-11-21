@@ -3,23 +3,34 @@ import React, { useState } from "react";
 interface Props {
   totalStars?: number;
   onRating: (rating: number) => void;
+  rating?: number;
+  disabled?: boolean;
   customClassName: string;
 }
 
 const StarRating = (props: Props) => {
-  const { totalStars = 5, onRating, customClassName } = props;
-  const [rating, setRating] = useState(0);
+  const {
+    totalStars = 5,
+    onRating,
+    customClassName,
+    rating: ratingIn,
+    disabled,
+  } = props;
+  const [rating, setRating] = useState(ratingIn || 0);
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleMouseEnter = (index: number) => {
+    if (disabled) return;
     setHoverRating(index);
   };
 
   const handleMouseLeave = () => {
+    if (disabled) return;
     setHoverRating(0);
   };
 
   const handleClick = (index: number) => {
+    if (disabled) return;
     setRating(index);
     onRating(index);
   };
@@ -29,7 +40,7 @@ const StarRating = (props: Props) => {
       {[...Array(totalStars)].map((_, index) => (
         <span
           key={index}
-          className={`cursor-pointer ${customClassName} ${
+          className={`${!disabled && "cursor-pointer"} ${customClassName} ${
             index < (hoverRating || rating)
               ? "text-yellow-500"
               : "text-gray-300"

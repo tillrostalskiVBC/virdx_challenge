@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaLock, FaRegUser } from "react-icons/fa6";
 import useLogin from "./hooks/useLogin";
-import { toastError, toastPromise, toastSuccess } from "./toasts";
+import { toastError, toastSuccess } from "./toasts";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {

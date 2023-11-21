@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -12,3 +13,4 @@ class CommentCreate(CommentBase):
 
 class CommentInDB(CommentBase):
     id: int
+    created_at: datetime

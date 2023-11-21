@@ -7,6 +7,7 @@ import useLogout from "@/app/hooks/useLogout";
 import { useRouter } from "next/navigation";
 import { toastSuccess } from "@/app/toasts";
 import useMe from "@/app/hooks/useMe";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 interface Props {
   changeActiveComponent: (component: string) => void;
@@ -35,7 +36,10 @@ const LeftSidebar = (props: Props) => {
   return (
     <aside className="flex flex-col pb-12 gap-4 items-center text-white bg-primary-color rounded-r-lg text-sm w-16 h-full pt-8">
       <button
-        onClick={() => changeActiveComponent("leaderboard")}
+        onClick={() => {
+          changeActiveComponent("leaderboard");
+          router.push("/app");
+        }}
         data-tooltip-id="leaderboard-tooltip"
         data-tooltip-content="Leaderboard"
         data-tooltip-place="right"
@@ -44,6 +48,21 @@ const LeftSidebar = (props: Props) => {
         <MdOutlineLeaderboard size={28} />
         <Tooltip id="leaderboard-tooltip" />
       </button>
+      {me?.is_superuser && (
+        <button
+          onClick={() => {
+            changeActiveComponent("admin");
+            router.push("/app/admin");
+          }}
+          data-tooltip-id="admin-tooltip"
+          data-tooltip-content="Admin"
+          data-tooltip-place="right"
+          className="flex items-center justify-center w-full p-2 rounded-md transition-colors duration-300 hover:bg-secondary-color"
+        >
+          <MdAdminPanelSettings size={28} />
+          <Tooltip id="admin-tooltip" />
+        </button>
+      )}
       <div className="grow" />
       <button
         className="flex items-center justify-center w-full p-2 rounded-md transition-colors duration-300 hover:bg-secondary-color"
@@ -53,7 +72,7 @@ const LeftSidebar = (props: Props) => {
         onClick={handleLogout}
       >
         <RiLogoutBoxLine size={28} />
-        <Tooltip id="logout-tooltip" />{" "}
+        <Tooltip id="logout-tooltip" />
       </button>
     </aside>
   );

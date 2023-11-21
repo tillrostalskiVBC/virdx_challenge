@@ -1,22 +1,26 @@
 import React from "react";
 import Footer from "./Footer";
+import LeftSidebar from "./LeftSidebar";
 
 interface Props {
-  title: string;
   children: React.ReactNode;
 }
 
 const MainWrapper = (props: Props) => {
-  const { title, children } = props;
+  const [activeComponent, setActiveComponent] = React.useState("leaderboard");
+  const { children } = props;
+
+  const changeActiveComponent = (component: string) => {
+    setActiveComponent(component);
+  };
+
   return (
-    <div className="container mx-auto flex flex-col w-full h-full py-4 px-8 gap-2">
-      <div>
-        <span className="text-2xl font-semibold text-secondary-color">
-          {title}
-        </span>
+    <div className="flex h-full w-full">
+      <LeftSidebar changeActiveComponent={changeActiveComponent} />
+      <div className="container mx-auto flex flex-col w-full h-full py-4 px-8 gap-2">
+        {children}
+        <Footer />
       </div>
-      {children}
-      <Footer />
     </div>
   );
 };

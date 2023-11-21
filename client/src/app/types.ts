@@ -1,3 +1,22 @@
+export enum RatingType {
+  General = "General",
+  CodeQuality = "Code Quality",
+  Approach = "Approach",
+}
+
+export interface DiscussionComment {
+  content: string;
+  user_id: number;
+  applicant_id: number;
+  created_at: string;
+  id: number;
+}
+
+export type DiscussionCommentCreate = Omit<
+  DiscussionComment,
+  "id" | "created_at"
+>;
+
 export interface Applicant {
   id: number;
   accuracy: number;
@@ -6,9 +25,18 @@ export interface Applicant {
   comment: string;
   feedback: string;
   repo_link: string;
-  rating?: number;
-  rank?: number;
   created_at: string;
+  ratings: Rating[];
+  discussion: DiscussionComment[];
+  rank?: number;
+}
+
+export interface Rating {
+  id: number;
+  type: string;
+  score: number;
+  user_id: number;
+  applicant_id: number;
 }
 
 export interface User {
@@ -16,6 +44,7 @@ export interface User {
   full_name: string;
   email: string;
   created_at: string;
+  is_superuser: boolean;
 }
 
 export interface UserSession {

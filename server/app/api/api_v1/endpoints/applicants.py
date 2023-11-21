@@ -4,7 +4,12 @@ from sqlalchemy.orm import Session
 
 from app import schemas, models
 from app.db.dependency import get_current_user, get_db
-from app.logic.applicant import update_applicant, get_applicant_by_github
+from app.logic.applicant import (
+    get_all_comments,
+    update_applicant,
+    get_applicant_by_github,
+    get_all_ratings,
+)
 
 router = APIRouter()
 
@@ -28,6 +33,9 @@ def read(
     db_applicant = db.get(models.Applicant, id)
     if not db_applicant:
         raise HTTPException(status_code=404, detail="Applicant not found")
+    ratings = get_all_ratings(db, id)
+    comments = get_all_comments(db, id)
+    db_applicant.ratings = ratings
     return db_applicant
 
 
@@ -60,6 +68,24 @@ def create_many(
     db.add_all(db_applicants)
     db.commit()
     return db_applicants
+
+
+@router.post("/{id}/comment", response_model=schemas.CommentInDB)
+def add_comment(
+    id: int,
+    comment: schemas.CommentCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> Any:
+    db_applicant = db.get(models.Applicant, id)
+    if not db_applicant:
+        raise HTTPException(status_code=404, detail="Applicant not found")
+    db_comment = models.Comment(**comment.model_dump())
+    db_comment.applicant_id = id
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
 
 
 @router.put("/{id}", response_model=schemas.ApplicantInDB)

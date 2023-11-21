@@ -1,6 +1,9 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
+
+from app.schemas.comment import CommentInDB
+from app.schemas.rating import RatingInDB
 
 
 # Base Applicant Schema
@@ -11,6 +14,8 @@ class ApplicantBase(BaseModel):
     comment: Optional[str] = None
     feedback: Optional[str] = None
     accuracy: Optional[float] = None
+    ratings: Optional[List[RatingInDB]] = None
+    discussion: Optional[List[CommentInDB]] = None
 
 
 # Schema for Creating a New Applicant

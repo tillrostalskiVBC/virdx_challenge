@@ -1,5 +1,4 @@
 import React from "react";
-import { Applicant } from "../../hooks/useApplicants";
 import {
   ColumnFiltersState,
   SortingState,
@@ -13,6 +12,8 @@ import {
 import { FaSortUp, FaSortDown } from "react-icons/fa6";
 import { Tooltip } from "react-tooltip";
 import ApplicantModal from "./ApplicantModal";
+import { Applicant } from "@/app/types";
+import { formatDate } from "@/app/utils/dateUtils";
 
 const columnHelper = createColumnHelper<Applicant>();
 
@@ -142,7 +143,7 @@ const LeaderboardTable = ({ applicants }: Props) => {
     columnHelper.accessor("created_at", {
       header: "Created At",
       cell: (info) => (
-        <div className="w-full text-center">{info.getValue()}</div>
+        <div className="w-full text-center">{formatDate(info.getValue())}</div>
       ),
       meta: {
         sortType: "datetime",
