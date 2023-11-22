@@ -1,4 +1,4 @@
-import { Applicant } from "../types";
+import { Applicant, Rating } from "../types";
 
 export const computeRanks = (applicants: Applicant[]) => {
   const sortedApplicants = applicants.sort((a, b) => b.accuracy - a.accuracy);
@@ -8,13 +8,11 @@ export const computeRanks = (applicants: Applicant[]) => {
   return sortedApplicants;
 };
 
-export const computeAverageRating = (
-  applicant: Applicant,
-  ratingType: string
-) => {
+export const computeAverageRating = (ratings: Rating[], ratingType: string) => {
   let sum = 0;
-  applicant.ratings.forEach((rating) => {
-    if (rating.type === ratingType) sum += rating.score;
+  const ratingsOfType = ratings.filter((rating) => rating.type === ratingType);
+  ratingsOfType.forEach((rating) => {
+    sum += rating.score;
   });
-  return sum / applicant.ratings.length;
+  return sum / ratingsOfType.length;
 };

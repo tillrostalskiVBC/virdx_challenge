@@ -3,20 +3,13 @@ import React, { useState } from "react";
 interface Props {
   totalStars?: number;
   onRating: (rating: number) => void;
-  rating?: number;
+  rating: number;
   disabled?: boolean;
   customClassName: string;
 }
 
 const StarRating = (props: Props) => {
-  const {
-    totalStars = 5,
-    onRating,
-    customClassName,
-    rating: ratingIn,
-    disabled,
-  } = props;
-  const [rating, setRating] = useState(ratingIn || 0);
+  const { totalStars = 5, onRating, customClassName, rating, disabled } = props;
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleMouseEnter = (index: number) => {
@@ -31,7 +24,6 @@ const StarRating = (props: Props) => {
 
   const handleClick = (index: number) => {
     if (disabled) return;
-    setRating(index);
     onRating(index);
   };
 
@@ -41,9 +33,7 @@ const StarRating = (props: Props) => {
         <span
           key={index}
           className={`${!disabled && "cursor-pointer"} ${customClassName} ${
-            index < (hoverRating || rating)
-              ? "text-yellow-500"
-              : "text-gray-300"
+            index < rating ? "text-yellow-500" : "text-gray-300"
           }`}
           onMouseEnter={() => handleMouseEnter(index + 1)}
           onMouseLeave={handleMouseLeave}

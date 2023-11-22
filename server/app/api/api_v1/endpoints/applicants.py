@@ -116,3 +116,40 @@ def delete(
     db.delete(db_applicant)
     db.commit()
     return db_applicant
+
+
+@router.post("/{id}/ratings")
+def create_or_update_rating(
+    id: int,
+    ratings: List[schemas.RatingCreate],
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> Any:
+    """Create or update ratings by user for an applicant. If a rating of
+    the same type already exists, it will be updated, otherwise a new
+    rating will be created."""
+
+    db_applicant = db.get(models.Applicant, id)
+    if not db_applicant:
+        raise HTTPException(status_code=404, detail="Applicant not found")
+
+    for rating in ratings:
+        db_rating = (
+            db.query(models.Rating)
+            .filter(
+                models.Rating.applicant_id == id,
+                models.Rating.user_id == current_user.id,
+                models.Rating.type == rating.type,
+            )
+            .first()
+        )
+        if db_rating:
+            db_rating.score = rating.score
+        else:
+            db_rating = models.Rating(**rating.model_dump())
+            db_rating.applicant_id = id
+            db_rating.user_id = current_user.id
+            db.add(db_rating)
+    db.commit()
+    db.refresh(db_applicant)
+    return {"message": "Ratings updated successfully"}

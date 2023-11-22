@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import ModalWrapper from "../../components/ModalWrapper";
 import StarRating from "./StarRating";
-import { Applicant, DiscussionCommentCreate, RatingType } from "@/app/types";
+import {
+  Applicant,
+  DiscussionCommentCreate,
+  RatingCreate,
+  RatingType,
+} from "@/app/types";
 import { computeAverageRating } from "@/app/utils/applicantUtils";
 import { FaEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import ApplicantDiscussion from "./ApplicantDiscussion";
 import { apiUrl } from "@/app/constants";
-import { toastError } from "@/app/toasts";
+import { toastError, toastSuccess } from "@/app/toasts";
 import { fetcher } from "@/app/fetcher";
 import useMe from "@/app/hooks/useMe";
 import useApplicant from "@/app/hooks/useApplicant";
+import { ApplicantRatings } from "./ApplicantRatings";
 
 interface Props {
   isOpen: boolean;
@@ -20,7 +26,6 @@ interface Props {
 
 const ApplicantModal = (props: Props) => {
   const { isOpen, closeModal, applicantId } = props;
-  const [editRating, setEditRating] = useState(false);
 
   const {
     data: applicant,
@@ -31,12 +36,33 @@ const ApplicantModal = (props: Props) => {
   } = useApplicant(applicantId);
   const { me, isLoading: meIsLoading, error: meError } = useMe();
 
+  const myRatings = applicant?.ratings.filter(
+    (rating) => rating.user_id === me?.id
+  );
+
   const handleDeleteComment = async (commentId: number) => {
     try {
       deleteComment(commentId);
     } catch (error) {
       console.error(error);
       toastError("Failed to delete comment");
+    }
+  };
+
+  const onRatingsSubmit = async (ratings: RatingCreate[]) => {
+    try {
+      const response = await fetcher(
+        apiUrl + `/applicants/${applicantId}/ratings`,
+        {
+          method: "POST",
+          body: JSON.stringify(ratings),
+        }
+      );
+      mutateApplicant();
+      toastSuccess("Ratings submitted successfully");
+    } catch (error) {
+      console.error(error);
+      toastError("Failed to submit ratings");
     }
   };
 
@@ -109,54 +135,12 @@ const ApplicantModal = (props: Props) => {
               </p>
             </div>
             <div className="mb-2 w-full justify-between border rounded p-2">
-              <div className="flex items-center justify-between">
-                <label className="font-semibold">Ratings </label>
-                <button>
-                  {editRating ? (
-                    <FaCheck
-                      size={20}
-                      className="text-confirm-button-color transition hover:text-hover-confirm-button-color"
-                      onClick={() => setEditRating(false)}
-                    />
-                  ) : (
-                    <FaEdit
-                      size={20}
-                      className="text-primary-color transition hover:text-secondary-color"
-                      onClick={() => setEditRating(true)}
-                    />
-                  )}
-                </button>
-              </div>
-              <div className="flex flex-col w-full justify-center">
-                {Object.keys(RatingType).map((ratingType) => (
-                  <div
-                    className="flex items-center justify-between"
-                    key={ratingType}
-                  >
-                    <span>{ratingType}</span>
-                    <div className="flex flex-row items-center">
-                      <StarRating
-                        disabled={!editRating}
-                        totalStars={5}
-                        rating={
-                          computeAverageRating(applicant, ratingType) || 0
-                        }
-                        onRating={() => {}}
-                        customClassName="text-lg"
-                      />
-                      <span className="text-gray-400 w-8 text-end pt-1">
-                        (
-                        {
-                          applicant.ratings.filter(
-                            (rating) => rating.type === ratingType
-                          )?.length
-                        }
-                        )
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ApplicantRatings
+                applicantId={applicant.id}
+                ratings={applicant.ratings}
+                myRatings={myRatings}
+                onRatingsSubmit={onRatingsSubmit}
+              />
             </div>
           </div>
           {/* Right column content */}

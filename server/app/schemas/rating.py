@@ -12,11 +12,12 @@ class RatingType(str, Enum):
 class RatingBase(BaseModel):
     score: float
     type: RatingType
+    user_id: int
+    applicant_id: int
 
 
 class RatingCreate(RatingBase):
-    user_id: int
-    applicant_id: int
+    pass
 
 
 class RatingInDB(RatingBase):

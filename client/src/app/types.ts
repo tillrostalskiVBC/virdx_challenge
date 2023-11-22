@@ -1,7 +1,7 @@
 export enum RatingType {
-  General = "General",
-  CodeQuality = "Code Quality",
-  Approach = "Approach",
+  general = "General",
+  code_quality = "Code Quality",
+  approach = "Approach",
 }
 
 export interface DiscussionComment {
@@ -39,6 +39,8 @@ export interface Rating {
   user_id: number;
   applicant_id: number;
 }
+
+export type RatingCreate = Omit<Rating, "id">;
 
 export interface User {
   id: number;

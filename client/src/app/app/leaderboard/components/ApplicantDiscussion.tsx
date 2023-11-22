@@ -1,5 +1,5 @@
 import useMe from "@/app/hooks/useMe";
-import { Applicant, DiscussionComment } from "@/app/types";
+import { Applicant, DiscussionComment, RatingCreate } from "@/app/types";
 import { formatDate, sortByDate } from "@/app/utils/dateUtils";
 import React, { useState, FormEvent } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
