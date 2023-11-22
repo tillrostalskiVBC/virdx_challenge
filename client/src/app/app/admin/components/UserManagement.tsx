@@ -76,7 +76,10 @@ const UserManagement = () => {
           </thead>
           <tbody>
             {data?.map((user) => (
-              <tr className="border-b border-gray-200 hover:bg-gray-100">
+              <tr
+                className="border-b border-gray-200 hover:bg-gray-100"
+                key={user.id}
+              >
                 <td className="py-4 px-6">{user.id}</td>
                 <td className="py-4 px-6">{user.email}</td>
                 <td className="py-4 px-6">{user.full_name}</td>

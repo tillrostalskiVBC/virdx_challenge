@@ -2,7 +2,7 @@ import useMe from "@/app/hooks/useMe";
 import React from "react";
 
 const Footer = () => {
-  const { me, meError: error, meIsLoading: isLoading } = useMe();
+  const { me, error, isLoading } = useMe();
 
   if (isLoading) return null;
   return (

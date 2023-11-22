@@ -24,7 +24,7 @@ const LoginPage = () => {
       router.push("/app");
       toastSuccess("Login successful!");
     }
-  }, [accessToken]);
+  }, [accessToken, router]);
 
   return (
     <div className="flex flex-row h-full w-full">

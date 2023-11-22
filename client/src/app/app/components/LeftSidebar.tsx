@@ -18,8 +18,7 @@ const LeftSidebar = (props: Props) => {
   const { isLoggedOut, logout } = useLogout();
   const router = useRouter();
 
-  const { me, meIsLoading: isLoading, meError: error } = useMe();
-
+  const { me, isLoading, error } = useMe();
   const handleLogout = () => {
     logout();
   };
@@ -29,7 +28,7 @@ const LeftSidebar = (props: Props) => {
       router.push("/");
       toastSuccess("Logout successful!");
     }
-  }, [isLoggedOut]);
+  }, [isLoggedOut, router]);
 
   if (isLoading) return null;
 
