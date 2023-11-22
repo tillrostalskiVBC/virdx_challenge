@@ -37,8 +37,9 @@ def get_url():
     user = os.getenv("POSTGRES_USER", "till")
     password = os.getenv("POSTGRES_PASSWORD", "")
     server = os.getenv("POSTGRES_HOST", "localhost")
+    port = os.getenv("POSTGRES_PORT", "5433")
     db = os.getenv("POSTGRES_DB", "virdx_challenge")
-    return f"postgresql://{user}:{password}@{server}/{db}"
+    return f"postgresql://{user}:{password}@{server}:{port}/{db}"
 
 
 def run_migrations_offline():

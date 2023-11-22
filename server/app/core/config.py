@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = "till"
     POSTGRES_PASSWORD: Optional[str] = None
     POSTGRES_DB: str = "virdx_challenge"
-    POSTGRES_PORT: str = "5432"
+    POSTGRES_PORT: str = "5433"
     POSTGRES_HOST: str = "127.0.0.1"
     FIRST_SUPERUSER_EMAIL: str
     FIRST_SUPERUSER_PASSWORD: str
