@@ -14,8 +14,8 @@ class ApplicantBase(BaseModel):
     comment: Optional[str] = None
     feedback: Optional[str] = None
     accuracy: Optional[float] = None
-    ratings: Optional[List[RatingInDB]] = None
-    discussion: Optional[List[CommentInDB]] = None
+    ratings: Optional[List[RatingInDB]] = []
+    discussion: Optional[List[CommentInDB]] = []
 
 
 # Schema for Creating a New Applicant

@@ -44,7 +44,6 @@ def read(
 def create_or_update(
     applicant: schemas.ApplicantCreate,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user),
 ) -> Any:
     db_applicant = get_applicant_by_github(db, applicant.github_name)
     if db_applicant:
