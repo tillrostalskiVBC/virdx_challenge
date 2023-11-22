@@ -1,5 +1,4 @@
 import { Rating, RatingCreate, RatingType } from "@/app/types";
-import { computeAverageRating } from "@/app/utils/applicantUtils";
 import React, { Fragment, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
@@ -7,6 +6,7 @@ import StarRating from "./StarRating";
 import useMe from "@/app/hooks/useMe";
 import { Tooltip } from "react-tooltip";
 import { AiOutlineClose } from "react-icons/ai";
+import { computeAverageRating } from "@/app/utils/ApplicantUtils";
 
 interface Props {
   applicantId: number;
