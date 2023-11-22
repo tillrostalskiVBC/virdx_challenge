@@ -1,7 +1,7 @@
 import React from "react";
 import LeaderboardTable from "./LeaderboardTable";
 import useApplicants from "../../../hooks/useApplicants";
-import { computeRanks } from "@/app/utils/ApplicantUtils";
+import { computeRanks } from "@/app/utils/applicantUtils";
 
 interface Props {}
 

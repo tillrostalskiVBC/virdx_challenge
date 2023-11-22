@@ -6,7 +6,7 @@ import StarRating from "./StarRating";
 import useMe from "@/app/hooks/useMe";
 import { Tooltip } from "react-tooltip";
 import { AiOutlineClose } from "react-icons/ai";
-import { computeAverageRating } from "@/app/utils/ApplicantUtils";
+import { computeAverageRating } from "@/app/utils/applicantUtils";
 
 interface Props {
   applicantId: number;
@@ -27,29 +27,37 @@ const RatingTypeTooltip = ({
   return (
     <Tooltip id={`rating-${ratingType}-tooltip`}>
       <div className="flex flex-col w-48 max-h-64">
-        <div className="flex w-full justify-between items-center text-lg">
-          <span className="">Average</span>
-          <span className="font-semibold">{averageRating.toFixed(1)}</span>
-        </div>
-        {ratings.map((rating) => (
-          <div
-            className="flex flex-row w-full justify-between items-center"
-            key={rating.id}
-          >
-            <span className="font-semibold w-1/2 overflow-clip">
-              {rating.user?.full_name}
-            </span>
-            <div className="w-1/2">
-              <StarRating
-                disabled
-                totalStars={5}
-                rating={rating.score}
-                onRating={() => {}}
-                customClassName="text-lg"
-              />
-            </div>
+        {ratings.length === 0 ? (
+          <div className="flex w-full justify-center items-center text-lg">
+            <span className="text-gray-500">No ratings</span>
           </div>
-        ))}
+        ) : (
+          <Fragment>
+            <div className="flex w-full justify-between items-center text-lg">
+              <span className="">Average</span>
+              <span className="font-semibold">{averageRating.toFixed(1)}</span>
+            </div>
+            {ratings.map((rating) => (
+              <div
+                className="flex flex-row w-full justify-between items-center"
+                key={rating.id}
+              >
+                <span className="font-semibold w-1/2 overflow-clip">
+                  {rating.user?.full_name}
+                </span>
+                <div className="w-1/2">
+                  <StarRating
+                    disabled
+                    totalStars={5}
+                    rating={rating.score}
+                    onRating={() => {}}
+                    customClassName="text-lg"
+                  />
+                </div>
+              </div>
+            ))}
+          </Fragment>
+        )}
       </div>
     </Tooltip>
   );

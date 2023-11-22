@@ -109,7 +109,7 @@ const ApplicantModal = (props: Props) => {
                 View Repository
               </a>
             </div>
-            <div className="mb-2 w-full justify-between border rounded p-2">
+            <div className="mb-2 max-h-40 overflow-scroll w-full justify-between border rounded p-2">
               <label className="font-semibold">Comment</label>
               <p>
                 {applicant.feedback
@@ -117,7 +117,7 @@ const ApplicantModal = (props: Props) => {
                   : "No feedback comment provided"}
               </p>
             </div>
-            <div className="mb-2 w-full justify-between border rounded p-2">
+            <div className="mb-2 max-h-40 overflow-scroll w-full justify-between border rounded p-2">
               <label className="font-semibold">Feedback</label>
               <p>
                 {applicant.feedback
