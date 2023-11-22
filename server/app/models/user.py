@@ -16,8 +16,12 @@ class User(Base):
     hashed_password: Mapped[str]
     is_superuser: Mapped[bool] = mapped_column(default=False)
 
-    ratings = relationship("Rating", back_populates="user")
-    comments = relationship("Comment", back_populates="user")
+    ratings = relationship(
+        "Rating", back_populates="user", cascade="all, delete-orphan"
+    )
+    comments = relationship(
+        "Comment", back_populates="user", cascade="all, delete-orphan"
+    )
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

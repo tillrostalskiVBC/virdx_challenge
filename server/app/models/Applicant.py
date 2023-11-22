@@ -19,8 +19,12 @@ class Applicant(Base):
     feedback: Mapped[Optional[str]]
     accuracy: Mapped[Optional[float]]
 
-    ratings = relationship("Rating", back_populates="applicant")
-    discussion = relationship("Comment", back_populates="applicant")
+    ratings = relationship(
+        "Rating", back_populates="applicant", cascade="all, delete-orphan"
+    )
+    discussion = relationship(
+        "Comment", back_populates="applicant", cascade="all, delete-orphan"
+    )
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
