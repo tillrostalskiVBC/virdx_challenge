@@ -15,7 +15,6 @@ class RatingBase(BaseModel):
     score: float
     type: RatingType
     user_id: int
-    user: UserInDB
     applicant_id: int
 
 
@@ -25,3 +24,4 @@ class RatingCreate(RatingBase):
 
 class RatingInDB(RatingBase):
     id: int
+    user: UserInDB
