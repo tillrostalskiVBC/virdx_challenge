@@ -10,55 +10,72 @@ import { apiUrl } from "@/app/constants";
 import { toastError } from "@/app/toasts";
 import { fetcher } from "@/app/fetcher";
 import useMe from "@/app/hooks/useMe";
+import useApplicant from "@/app/hooks/useApplicant";
 
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
-  applicant: Applicant;
+  applicantId: number;
 }
 
 const ApplicantModal = (props: Props) => {
-  const { isOpen, closeModal, applicant } = props;
+  const { isOpen, closeModal, applicantId } = props;
   const [editRating, setEditRating] = useState(false);
-  const { me, isLoading, error } = useMe();
+
+  const {
+    data: applicant,
+    isLoading: applicantIsLoading,
+    error: applicantError,
+    mutate: mutateApplicant,
+    deleteComment,
+  } = useApplicant(applicantId);
+  const { me, isLoading: meIsLoading, error: meError } = useMe();
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      deleteComment(commentId);
+    } catch (error) {
+      console.error(error);
+      toastError("Failed to delete comment");
+    }
+  };
 
   const onCommentSubmit = async (content: string) => {
     const newComment: DiscussionCommentCreate = {
       content: content,
       user_id: me!.id,
-      applicant_id: applicant.id,
+      applicant_id: applicantId,
     };
 
     try {
       const response = await fetcher(
-        apiUrl + `/applicants/${applicant.id}/comment`,
+        apiUrl + `/applicants/${applicantId}/comment`,
         {
           method: "POST",
           body: JSON.stringify(newComment),
         }
       );
-
-      if (response) {
-      }
+      mutateApplicant();
     } catch (error) {
       console.error(error);
       toastError("Failed to submit comment");
     }
   };
 
-  if (isLoading) return null;
+  if (meIsLoading || applicantIsLoading || !applicant) return null;
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal} modalWidth="w-3/4">
-      <div className="flex flex-col p-4 text-gray-800 bg-white rounded-lg shadow-md">
+      <div className="flex-1 flex-col p-4 text-gray-800 bg-white rounded-lg shadow-md">
         {/* Header */}
-        <div className="flex flex-col items-center justify-between mb-4">
+        <div className="flex h-12 flex-col items-center justify-between mb-2">
           <h2 className="text-lg font-semibold">{applicant.github_name}</h2>
           <span className="text-gray-500 text-sm">{applicant.full_name}</span>
         </div>
         {/* Body */}
-        <div className="grid grid-cols-2">
-          <div>
+        <div className="flex flex-1 flex-col md:flex-row gap-4 overflow-auto">
+          {/* Left column content */}
+          <div className="flex-1">
             <div className="flex mb-2 w-full justify-between border rounded p-2">
               <span className="font-semibold">Model Accuracy</span>
               <span className="text-xl font-bold text-complementary-primary-color">
@@ -91,7 +108,6 @@ const ApplicantModal = (props: Props) => {
                   : "No feedback provided provided"}
               </p>
             </div>
-
             <div className="mb-2 w-full justify-between border rounded p-2">
               <div className="flex items-center justify-between">
                 <label className="font-semibold">Ratings </label>
@@ -143,10 +159,12 @@ const ApplicantModal = (props: Props) => {
               </div>
             </div>
           </div>
-          <div className="w-full justify-between rounded px-2">
+          {/* Right column content */}
+          <div className="flex-1">
             <ApplicantDiscussion
               applicant={applicant}
               onCommentSubmit={onCommentSubmit}
+              handleDeleteComment={handleDeleteComment}
             />
           </div>
         </div>

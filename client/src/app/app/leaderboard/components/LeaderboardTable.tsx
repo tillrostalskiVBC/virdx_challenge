@@ -255,7 +255,7 @@ const LeaderboardTable = ({ applicants }: Props) => {
         <ApplicantModal
           isOpen={showApplicantModal}
           closeModal={() => setShowApplicantModal(false)}
-          applicant={selectedApplicant}
+          applicantId={selectedApplicant.id}
         />
       )}
     </div>

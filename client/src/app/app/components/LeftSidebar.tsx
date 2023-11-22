@@ -18,7 +18,7 @@ const LeftSidebar = (props: Props) => {
   const { isLoggedOut, logout } = useLogout();
   const router = useRouter();
 
-  const { me, isLoading, error } = useMe();
+  const { me, meIsLoading: isLoading, meError: error } = useMe();
 
   const handleLogout = () => {
     logout();

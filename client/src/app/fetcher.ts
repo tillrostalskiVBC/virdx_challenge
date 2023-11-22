@@ -4,7 +4,7 @@ import { toastInfo } from "./toasts";
 import { accessTokenName } from "./constants";
 
 interface FetcherOptions {
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "DELETE";
   body?: BodyInit | null;
 }
 
@@ -26,8 +26,11 @@ export const fetcher = async (
     method: options?.method || "GET",
   };
 
-  // Add body if method is POST and body is provided
-  if (fetchOptions.method === "POST" && options?.body) {
+  // Add body if method is POST (or other methods that require body) and body is provided
+  if (
+    ["POST", "PUT", "PATCH"].includes(fetchOptions.method || "GET") &&
+    options?.body
+  ) {
     fetchOptions.body = options.body;
     headers["Content-Type"] = "application/json";
   }

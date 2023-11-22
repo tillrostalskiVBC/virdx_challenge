@@ -7,6 +7,7 @@ export enum RatingType {
 export interface DiscussionComment {
   content: string;
   user_id: number;
+  user: User;
   applicant_id: number;
   created_at: string;
   id: number;
@@ -14,7 +15,7 @@ export interface DiscussionComment {
 
 export type DiscussionCommentCreate = Omit<
   DiscussionComment,
-  "id" | "created_at"
+  "id" | "created_at" | "user"
 >;
 
 export interface Applicant {

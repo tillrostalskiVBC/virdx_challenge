@@ -7,7 +7,7 @@ import MainWrapper from "./components/MainWrapper";
 import { availableChallenges } from "../constants";
 
 const Home = () => {
-  const { me, isLoading, error } = useMe();
+  const { me, meIsLoading: isLoading, meError: error } = useMe();
 
   if (isLoading) return <Spinner />;
 

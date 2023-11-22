@@ -36,6 +36,7 @@ def read(
     ratings = get_all_ratings(db, id)
     comments = get_all_comments(db, id)
     db_applicant.ratings = ratings
+    db_applicant.discussion = comments
     return db_applicant
 
 

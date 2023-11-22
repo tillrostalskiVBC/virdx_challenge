@@ -22,7 +22,7 @@ def get_db() -> Generator:
     try:
         db = SessionLocal()
         yield db
-    except:
+    finally:
         db.close()
 
 
