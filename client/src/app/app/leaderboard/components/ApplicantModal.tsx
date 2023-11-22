@@ -1,15 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalWrapper from "../../components/ModalWrapper";
-import StarRating from "./StarRating";
-import {
-  Applicant,
-  DiscussionCommentCreate,
-  RatingCreate,
-  RatingType,
-} from "@/app/types";
-import { computeAverageRating } from "@/app/utils/applicantUtils";
-import { FaEdit } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa6";
+import { DiscussionCommentCreate, RatingCreate } from "@/app/types";
 import ApplicantDiscussion from "./ApplicantDiscussion";
 import { apiUrl } from "@/app/constants";
 import { toastError, toastSuccess } from "@/app/toasts";

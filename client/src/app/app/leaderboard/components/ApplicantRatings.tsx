@@ -15,6 +15,46 @@ interface Props {
   onRatingsSubmit: (ratings: RatingCreate[]) => void;
 }
 
+const RatingTypeTooltip = ({
+  averageRating,
+  ratingType,
+  ratings,
+}: {
+  averageRating: number;
+  ratingType: string;
+  ratings: Rating[];
+}) => {
+  return (
+    <Tooltip id={`rating-${ratingType}-tooltip`}>
+      <div className="flex flex-col w-48 max-h-64">
+        <div className="flex w-full justify-between items-center text-lg">
+          <span className="">Average</span>
+          <span className="font-semibold">{averageRating.toFixed(1)}</span>
+        </div>
+        {ratings.map((rating) => (
+          <div
+            className="flex flex-row w-full justify-between items-center"
+            key={rating.id}
+          >
+            <span className="font-semibold w-1/2 overflow-clip">
+              {rating.user?.full_name}
+            </span>
+            <div className="w-1/2">
+              <StarRating
+                disabled
+                totalStars={5}
+                rating={rating.score}
+                onRating={() => {}}
+                customClassName="text-lg"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </Tooltip>
+  );
+};
+
 export const ApplicantRatings = (props: Props) => {
   const { ratings, myRatings: myRatingsIn, applicantId } = props;
   const { me, isLoading: meIsLoading, error: meError } = useMe();
@@ -45,6 +85,7 @@ export const ApplicantRatings = (props: Props) => {
               <AiOutlineClose
                 data-tooltip-id="cancel-ratings-tooltip"
                 data-tooltip-content="Cancel ratings"
+                data-tooltip-place="bottom"
                 size={20}
                 className="text-cancel-button-color transition hover:text-hover-cancel-button-color"
                 onClick={() => {
@@ -80,8 +121,11 @@ export const ApplicantRatings = (props: Props) => {
       <div className="flex flex-col w-full justify-center">
         {Object.keys(RatingType).map((ratingType) => (
           <div className="flex items-center justify-between" key={ratingType}>
-            <span>{ratingType}</span>
-            <div className="flex flex-row items-center">
+            <span>{RatingType[ratingType as keyof typeof RatingType]}</span>
+            <div
+              className="flex flex-row items-center"
+              data-tooltip-id={`rating-${ratingType}-tooltip`}
+            >
               <StarRating
                 disabled={!editRating}
                 totalStars={5}
@@ -113,6 +157,11 @@ export const ApplicantRatings = (props: Props) => {
                 )
               </span>
             </div>
+            <RatingTypeTooltip
+              averageRating={computeAverageRating(ratings, ratingType)}
+              ratingType={ratingType}
+              ratings={ratings.filter((rating) => rating.type === ratingType)}
+            />
           </div>
         ))}
       </div>

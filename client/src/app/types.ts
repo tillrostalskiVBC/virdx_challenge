@@ -37,6 +37,7 @@ export interface Rating {
   type: string;
   score: number;
   user_id: number;
+  user?: User;
   applicant_id: number;
 }
 
@@ -48,7 +49,10 @@ export interface User {
   email: string;
   created_at: string;
   is_superuser: boolean;
+  password?: string;
 }
+
+export type UserCreate = Omit<User, "id" | "created_at">;
 
 export interface UserSession {
   id: number;

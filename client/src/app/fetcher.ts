@@ -4,7 +4,7 @@ import { toastInfo } from "./toasts";
 import { accessTokenName } from "./constants";
 
 interface FetcherOptions {
-  method?: "GET" | "POST" | "DELETE";
+  method?: "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
   body?: BodyInit | null;
 }
 

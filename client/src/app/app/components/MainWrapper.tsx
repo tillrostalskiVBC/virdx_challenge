@@ -19,6 +19,7 @@ const MainWrapper = (props: Props) => {
       <LeftSidebar changeActiveComponent={changeActiveComponent} />
       <div className="container mx-auto flex flex-col w-full h-full py-4 px-8 gap-2">
         {children}
+        <div className="grow" />
         <Footer />
       </div>
     </div>
