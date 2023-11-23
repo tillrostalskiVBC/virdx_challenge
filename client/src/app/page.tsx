@@ -36,7 +36,7 @@ const LoginPage = () => {
       <form className="flex flex-col w-2/3 justify-center">
         <div className="flex flex-col w-7/12 ml-24">
           <div className="w-full flex flex-col items-start justify-center">
-            <label className="text-gray-400 text-xl">Username</label>
+            <label className="text-gray-400 text-xl">Email</label>
             <div className="flex w-full items-center border-2 border-primary-color rounded-md">
               <FaRegUser className="text-gray-400 text-xl mx-2" />
               <input
