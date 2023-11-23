@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <MainWrapper>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <span className="text-2xl font-semibold text-secondary-color">
           Leaderboard
         </span>

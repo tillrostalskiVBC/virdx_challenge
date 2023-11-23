@@ -1,66 +1,58 @@
 import React, { useEffect } from "react";
 import ModalWrapper from "../../components/ModalWrapper";
-import { User, UserCreate } from "@/app/types";
+import { Applicant, ApplicantCreate } from "@/app/types";
 import { toastError } from "@/app/toasts";
 
 interface Props {
-  user: User | null;
+  applicant: Applicant | null;
   showModal: boolean;
   closeModal: () => void;
-  handleCreateUser: (user: UserCreate) => void;
-  handleUpdateUser: (user: UserCreate, userId: number) => void;
+  handleCreateApplicant: (applicant: ApplicantCreate) => void;
+  handleUpdateApplicant: (
+    applicant: ApplicantCreate,
+    applicantId: number
+  ) => void;
 }
 
-const EditUserModal = (props: Props) => {
+const EditapplicantModal = (props: Props) => {
   const {
-    user: userIn,
+    applicant: applicantIn,
     closeModal,
     showModal,
-    handleCreateUser,
-    handleUpdateUser,
+    handleCreateApplicant: handleCreateApplicant,
+    handleUpdateApplicant: handleUpdateApplicant,
   } = props;
-  const [user, setUser] = React.useState<UserCreate>(
-    userIn || {
-      email: "",
+  const [applicant, setApplicant] = React.useState<ApplicantCreate>(
+    applicantIn || {
+      github_name: "",
       full_name: "",
-      is_superuser: false,
-      password: "",
+      repo_link: "",
     }
   );
 
-  const reset = () => {
-    setUser({
-      email: "",
-      full_name: "",
-      is_superuser: false,
-      password: "",
-    });
-  };
-
   useEffect(() => {
-    setUser(
-      userIn || {
-        email: "",
+    setApplicant(
+      applicantIn || {
         full_name: "",
-        is_superuser: false,
-        password: "",
+        github_name: "",
+        repo_link: "",
       }
     );
-  }, [userIn]);
+  }, [applicantIn]);
 
-  const isEditing = !!userIn;
+  const isEditing = !!applicantIn;
 
   const handleSubmit = async () => {
     try {
       if (isEditing) {
-        handleUpdateUser(user, userIn?.id);
+        handleUpdateApplicant(applicant, applicantIn?.id);
       } else {
-        handleCreateUser(user);
+        handleCreateApplicant(applicant);
       }
       closeModal();
     } catch (error) {
       console.error(error);
-      toastError("Failed to create user");
+      toastError("Failed to create applicant");
     }
   };
 
@@ -73,47 +65,40 @@ const EditUserModal = (props: Props) => {
       <div className="flex flex-col w-full px-4 py-2 gap-2">
         <div>
           <span className="text-xl font-semibold">
-            {isEditing ? "Edit" : "Create"} User {userIn?.id}
+            {isEditing ? "Edit" : "Create"} Applicant {applicantIn?.id}
           </span>
-        </div>
-        <div className="flex flex-col w-full">
-          <label>Email</label>
-          <input
-            className="border border-gray-300 rounded p-2 w-full"
-            type="text"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-          />
         </div>
         <div className="flex flex-col w-full">
           <label>Full Name</label>
           <input
             className="border border-gray-300 rounded p-2 w-full"
             type="text"
-            value={user.full_name}
-            onChange={(e) => setUser({ ...user, full_name: e.target.value })}
+            value={applicant.full_name}
+            onChange={(e) =>
+              setApplicant({ ...applicant, full_name: e.target.value })
+            }
           />
         </div>
         <div className="flex flex-col w-full">
-          <label>Superuser</label>
-          <select
-            className="border border-gray-300 rounded p-2 w-full"
-            value={user.is_superuser.toString()}
-            onChange={(e) =>
-              setUser({ ...user, is_superuser: e.target.value === "true" })
-            }
-          >
-            <option value={"true"}>Yes</option>
-            <option value={"false"}>No</option>
-          </select>
-        </div>
-        <div className="flex flex-col w-full">
-          <label>Password</label>
+          <label>GitHub</label>
           <input
             className="border border-gray-300 rounded p-2 w-full"
             type="text"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            value={applicant.github_name}
+            onChange={(e) =>
+              setApplicant({ ...applicant, github_name: e.target.value })
+            }
+          />
+        </div>
+        <div className="flex flex-col w-full">
+          <label>Repo Link</label>
+          <input
+            className="border border-gray-300 rounded p-2 w-full"
+            type="text"
+            value={applicant.repo_link}
+            onChange={(e) =>
+              setApplicant({ ...applicant, repo_link: e.target.value })
+            }
           />
         </div>
         <div className="flex flex-row w-full justify-end gap-2">
@@ -135,4 +120,4 @@ const EditUserModal = (props: Props) => {
   );
 };
 
-export default EditUserModal;
+export default EditapplicantModal;

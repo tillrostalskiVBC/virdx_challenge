@@ -14,8 +14,6 @@ class ApplicantBase(BaseModel):
     comment: Optional[str] = None
     feedback: Optional[str] = None
     accuracy: Optional[float] = None
-    ratings: Optional[List[RatingInDB]] = []
-    discussion: Optional[List[CommentInDB]] = []
 
 
 # Schema for Creating a New Applicant
@@ -32,3 +30,5 @@ class ApplicantUpdate(ApplicantBase):
 class ApplicantInDB(ApplicantBase):
     id: int
     created_at: datetime
+    ratings: Optional[List[RatingInDB]] = []
+    discussion: Optional[List[CommentInDB]] = []

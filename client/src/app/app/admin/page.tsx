@@ -1,8 +1,8 @@
 "use client";
 import React, { use } from "react";
 import MainWrapper from "../components/MainWrapper";
-import UserManagement from "./components/UserManagement";
 import useMe from "@/app/hooks/useMe";
+import AdminManagement from "./components/AdminManagement";
 
 const AdminPage = () => {
   const { me, isLoading, error } = useMe();
@@ -23,14 +23,12 @@ const AdminPage = () => {
 
   return (
     <MainWrapper>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-2">
         <span className="text-2xl font-semibold text-secondary-color">
           Admin
         </span>
       </div>
-      <div>
-        <UserManagement />
-      </div>
+      <AdminManagement />
     </MainWrapper>
   );
 };

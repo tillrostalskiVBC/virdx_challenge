@@ -22,7 +22,8 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://192.168.170.23:3000"
+    "http://192.168.170.23:3000",
+    "http://viopsy-pc:3000",
 ]
 
 

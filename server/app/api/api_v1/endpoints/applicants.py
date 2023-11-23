@@ -40,6 +40,18 @@ def read(
     return db_applicant
 
 
+@router.post(path="/", response_model=schemas.ApplicantCreate)
+def create(
+    applicant: schemas.ApplicantCreate,
+    db: Session = Depends(get_db),
+) -> Any:
+    db_applicant = models.Applicant(**applicant.model_dump())
+    db.add(db_applicant)
+    db.commit()
+    db.refresh(db_applicant)
+    return db_applicant
+
+
 @router.post(path="/create-or-update", response_model=schemas.ApplicantCreate)
 def create_or_update(
     applicant: schemas.ApplicantCreate,

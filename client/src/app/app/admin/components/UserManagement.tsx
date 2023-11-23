@@ -1,26 +1,43 @@
 import useUsers from "@/app/hooks/useUsers";
-import { formatDate } from "@/app/utils/dateUtils";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import EditUserModal from "./EditUserModal";
 import { User, UserCreate } from "@/app/types";
 import { apiUrl } from "@/app/constants";
 import { fetcher } from "@/app/fetcher";
 import { toastError, toastSuccess } from "@/app/toasts";
-import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
+import UserTable from "./UserTable";
+import useApplicants from "@/app/hooks/useApplicants";
+import { TabBar } from "../../components/TabBar";
 
 const UserManagement = () => {
-  const { data, isLoading, error, mutate } = useUsers();
+  const {
+    data: users,
+    isLoading: usersIsLoading,
+    error: usersError,
+    mutate: usersMutate,
+  } = useUsers();
+
+  const {
+    data: applicants,
+    isLoading: applicantsIsLoading,
+    error: applicantsError,
+    mutate: applicantsMutate,
+  } = useApplicants();
+
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
 
-  if (isLoading) return null;
+  const handleEditUser = (user: User) => {
+    setEditUser(user);
+    setShowEditUserModal(true);
+  };
 
   const handleCreateUser = async (user: UserCreate) => {
     const response = await fetcher(apiUrl + "/users", {
       method: "POST",
       body: JSON.stringify(user),
     });
-    mutate();
+    usersMutate();
     toastSuccess("User created");
   };
 
@@ -29,7 +46,7 @@ const UserManagement = () => {
       method: "PUT",
       body: JSON.stringify(user),
     });
-    mutate();
+    usersMutate();
     toastSuccess("User updated");
   };
 
@@ -40,7 +57,7 @@ const UserManagement = () => {
       const response = await fetcher(apiUrl + `/users/${userId}`, {
         method: "DELETE",
       });
-      mutate();
+      usersMutate();
       toastSuccess("User deleted");
     } catch (error) {
       console.error(error);
@@ -48,66 +65,36 @@ const UserManagement = () => {
     }
   };
 
+  if (usersIsLoading) return null;
+
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Users</h2>
-        <button
-          className="bg-primary-color hover:secondary-color text-white font-bold py-2 px-4 rounded"
-          onClick={() => {
-            setEditUser(null);
-            setShowEditUserModal(true);
-          }}
-        >
-          Create User
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
-          <thead>
-            <tr className="text-left border-b border-gray-200">
-              <th className="py-2 px-4">ID</th>
-              <th className="py-2 px-4">Email</th>
-              <th className="py-2 px-4">Full Name</th>
-              <th className="py-2 px-4">Created</th>
-              <th className="py-2 px-4">Superuser</th>
-              <th className="py-2 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((user) => (
-              <tr
-                className="border-b border-gray-200 hover:bg-gray-100"
-                key={user.id}
-              >
-                <td className="py-4 px-6">{user.id}</td>
-                <td className="py-4 px-6">{user.email}</td>
-                <td className="py-4 px-6">{user.full_name}</td>
-                <td className="py-4 px-6">{formatDate(user.created_at)}</td>
-                <td className="py-4 px-6">
-                  {user.is_superuser ? "Yes" : "No"}
-                </td>
-                <td className="py-4 px-6 flex gap-2 items-center">
-                  <button
-                    className="text-primary-color hover:text-secondary-color"
-                    onClick={() => {
-                      setEditUser(user);
-                      setShowEditUserModal(true);
-                    }}
-                  >
-                    <FaEdit size={20} />
-                  </button>
-                  <button
-                    className="text-cancel-button-color hover:text-hover-cancel-button-color"
-                    onClick={() => handleDeleteUser(user.id)}
-                  >
-                    <FaRegTrashAlt size={20} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div>
+      <div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold">Users</h2>
+          <button
+            className="bg-primary-color hover:secondary-color text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              setEditUser(null);
+              setShowEditUserModal(true);
+            }}
+          >
+            Create User
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          {!users || users.length === 0 ? (
+            <div className="text-center text-xl text-gray-400">
+              No users found
+            </div>
+          ) : (
+            <UserTable
+              data={users}
+              handleDeleteUser={handleDeleteUser}
+              handleEditUser={handleEditUser}
+            />
+          )}
+        </div>
       </div>
       <EditUserModal
         user={editUser}

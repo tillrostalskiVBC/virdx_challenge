@@ -27,7 +27,7 @@ const ApplicantModal = (props: Props) => {
   } = useApplicant(applicantId);
   const { me, isLoading: meIsLoading, error: meError } = useMe();
 
-  const myRatings = applicant?.ratings.filter(
+  const myRatings = applicant?.ratings?.filter(
     (rating) => rating.user_id === me?.id
   );
 
@@ -128,7 +128,7 @@ const ApplicantModal = (props: Props) => {
             <div className="mb-2 w-full justify-between border rounded p-2">
               <ApplicantRatings
                 applicantId={applicant.id}
-                ratings={applicant.ratings}
+                ratings={applicant.ratings || []}
                 myRatings={myRatings}
                 onRatingsSubmit={onRatingsSubmit}
               />

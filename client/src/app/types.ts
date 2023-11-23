@@ -20,17 +20,22 @@ export type DiscussionCommentCreate = Omit<
 
 export interface Applicant {
   id: number;
-  accuracy: number;
+  accuracy?: number;
   full_name: string;
   github_name: string;
-  comment: string;
-  feedback: string;
+  comment?: string;
+  feedback?: string;
   repo_link: string;
   created_at: string;
-  ratings: Rating[];
-  discussion: DiscussionComment[];
+  ratings?: Rating[];
+  discussion?: DiscussionComment[];
   rank?: number;
 }
+
+export type ApplicantCreate = Omit<
+  Applicant,
+  "id" | "created_at" | "ratings" | "discussion"
+>;
 
 export interface Rating {
   id: number;

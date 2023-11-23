@@ -43,7 +43,8 @@ const LeaderboardTable = ({ applicants }: Props) => {
   );
   const [showApplicantModal, setShowApplicantModal] = React.useState(false);
 
-  const shortenText = (text: string, maxLength: number = 20) => {
+  const shortenText = (text?: string, maxLength: number = 20) => {
+    if (!text) return "";
     if (text.length > maxLength) {
       return text.slice(0, maxLength) + "...";
     }
@@ -74,7 +75,7 @@ const LeaderboardTable = ({ applicants }: Props) => {
       enableColumnFilter: false,
       cell: (info) => (
         <div className="w-full text-center text-complementary-primary-color">
-          {info.getValue() + "%"}
+          {info.getValue() !== null ? info.getValue() + "%" : ""}
         </div>
       ),
       meta: {
@@ -167,14 +168,14 @@ const LeaderboardTable = ({ applicants }: Props) => {
 
   return (
     <div className="p-4 shadow-md h-full w-full rounded-lg overflow-scroll bg-white">
-      <table className="text-sm text-left text-gray-500 w-full border-collapse">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+      <table className="text-sm text-left w-full">
+        <thead className="text-xs text-gray-700 uppercase">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="h-full whitespace-nowrap py-2 px-6 border border-gray-300"
+                  className="h-full whitespace-nowrap py-2 px-6"
                 >
                   <div className="">
                     <div

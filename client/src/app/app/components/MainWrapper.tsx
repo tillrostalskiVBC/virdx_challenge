@@ -17,7 +17,7 @@ const MainWrapper = (props: Props) => {
   return (
     <div className="flex h-full w-full">
       <LeftSidebar changeActiveComponent={changeActiveComponent} />
-      <div className="container mx-auto flex flex-col w-full h-full py-4 px-8 gap-2">
+      <div className="container mx-auto flex flex-col w-full h-full py-4 px-8">
         {children}
         <div className="grow" />
         <Footer />
