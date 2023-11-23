@@ -96,7 +96,7 @@ const ApplicantModal = (props: Props) => {
             <div className="flex mb-2 w-full justify-between border rounded p-2">
               <span className="font-semibold">Model Accuracy</span>
               <span className="text-xl font-bold text-complementary-primary-color">
-                {applicant.accuracy + "%"}
+                {applicant.accuracy ? applicant.accuracy + "%" : "-"}
               </span>
             </div>
             <div className="flex mb-2 w-full justify-between border rounded p-2">
@@ -111,19 +111,19 @@ const ApplicantModal = (props: Props) => {
             </div>
             <div className="mb-2 max-h-40 overflow-scroll w-full justify-between border rounded p-2">
               <label className="font-semibold">Comment</label>
-              <p>
-                {applicant.feedback
-                  ? applicant.comment
-                  : "No feedback comment provided"}
-              </p>
+              {applicant.comment ? (
+                <p>{applicant.comment}</p>
+              ) : (
+                <p className="text-gray-400 text-sm">No comment provided</p>
+              )}
             </div>
             <div className="mb-2 max-h-40 overflow-scroll w-full justify-between border rounded p-2">
               <label className="font-semibold">Feedback</label>
-              <p>
-                {applicant.feedback
-                  ? applicant.feedback
-                  : "No feedback provided provided"}
-              </p>
+              {applicant.feedback ? (
+                <p>{applicant.feedback}</p>
+              ) : (
+                <p className="text-gray-400 text-sm">No feedback provided</p>
+              )}
             </div>
             <div className="mb-2 w-full justify-between border rounded p-2">
               <ApplicantRatings

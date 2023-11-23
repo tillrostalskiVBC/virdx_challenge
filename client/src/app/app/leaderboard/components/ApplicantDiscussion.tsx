@@ -60,7 +60,7 @@ const ApplicantDiscussion = (props: Props) => {
       <div className="h-72 w-full overflow-y-auto">
         <div className="pr-4 space-y-1">
           {!applicant.discussion || applicant.discussion.length === 0 ? (
-            <div className="text-gray-400 text-center">
+            <div className="text-gray-400 text-sm">
               No comments yet. Be the first to comment!
             </div>
           ) : (
