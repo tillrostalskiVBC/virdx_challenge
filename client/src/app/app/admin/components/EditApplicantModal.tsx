@@ -77,7 +77,6 @@ const EditapplicantModal = (props: Props) => {
   };
 
   const handleCancel = () => {
-    reset();
     closeModal();
   };
 

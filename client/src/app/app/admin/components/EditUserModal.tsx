@@ -71,7 +71,6 @@ const EditUserModal = (props: Props) => {
   };
 
   const handleCancel = () => {
-    reset();
     closeModal();
   };
 
@@ -114,15 +113,17 @@ const EditUserModal = (props: Props) => {
             <option value={"false"}>No</option>
           </select>
         </div>
-        <div className="flex flex-col w-full">
-          <label>Password</label>
-          <input
-            className="border border-gray-300 rounded p-2 w-full"
-            type="text"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-          />
-        </div>
+        {!isEditing && (
+          <div className="flex flex-col w-full">
+            <label>Initial Password</label>
+            <input
+              className="border border-gray-300 rounded p-2 w-full"
+              type="text"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+            />
+          </div>
+        )}
         <div className="flex flex-row w-full justify-end gap-2">
           <button
             className="bg-cancel-button-color p-2 rounded text-white transition hover:bg-hover-cancel-button-color"

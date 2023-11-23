@@ -28,7 +28,7 @@ def update_user(
 ) -> models.User:
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if db_user:
-        for key, value in updated_data.dict(exclude_unset=True).items():
+        for key, value in updated_data.model_dump(exclude_unset=True).items():
             setattr(db_user, key, value)
         db.commit()
         db.refresh(db_user)
