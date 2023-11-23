@@ -46,6 +46,10 @@ def create(
     db: Session = Depends(get_db),
 ) -> Any:
     db_applicant = models.Applicant(**applicant.model_dump())
+    if get_applicant_by_github(db, db_applicant.github_name):
+        raise HTTPException(
+            status_code=400, detail="Applicant with this github name already exists"
+        )
     db.add(db_applicant)
     db.commit()
     db.refresh(db_applicant)

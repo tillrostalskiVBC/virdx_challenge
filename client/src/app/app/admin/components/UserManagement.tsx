@@ -17,13 +17,6 @@ const UserManagement = () => {
     mutate: usersMutate,
   } = useUsers();
 
-  const {
-    data: applicants,
-    isLoading: applicantsIsLoading,
-    error: applicantsError,
-    mutate: applicantsMutate,
-  } = useApplicants();
-
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
 
@@ -68,8 +61,8 @@ const UserManagement = () => {
   if (usersIsLoading) return null;
 
   return (
-    <div>
-      <div>
+    <div className="">
+      <div className="">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Users</h2>
           <button
@@ -82,7 +75,7 @@ const UserManagement = () => {
             Create User
           </button>
         </div>
-        <div className="overflow-x-auto">
+        <div className="">
           {!users || users.length === 0 ? (
             <div className="text-center text-xl text-gray-400">
               No users found

@@ -43,16 +43,27 @@ const EditapplicantModal = (props: Props) => {
   const isEditing = !!applicantIn;
 
   const handleSubmit = async () => {
+    if (
+      !applicant.full_name ||
+      !applicant.github_name ||
+      !applicant.repo_link
+    ) {
+      toastError("Please fill in all fields");
+      return;
+    }
+
     try {
       if (isEditing) {
-        handleUpdateApplicant(applicant, applicantIn?.id);
+        await handleUpdateApplicant(applicant, applicantIn?.id);
       } else {
-        handleCreateApplicant(applicant);
+        await handleCreateApplicant(applicant);
       }
       closeModal();
     } catch (error) {
       console.error(error);
-      toastError("Failed to create applicant");
+      toastError(
+        "Failed to create applicant, maybe the github name is already taken?"
+      );
     }
   };
 

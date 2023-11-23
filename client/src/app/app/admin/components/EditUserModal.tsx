@@ -51,16 +51,21 @@ const EditUserModal = (props: Props) => {
   const isEditing = !!userIn;
 
   const handleSubmit = async () => {
+    if (!user.email || !user.full_name || !user.password) {
+      toastError("Please fill in all fields");
+      return;
+    }
+
     try {
       if (isEditing) {
-        handleUpdateUser(user, userIn?.id);
+        await handleUpdateUser(user, userIn?.id);
       } else {
-        handleCreateUser(user);
+        await handleCreateUser(user);
       }
       closeModal();
     } catch (error) {
       console.error(error);
-      toastError("Failed to create user");
+      toastError("Failed to create user, maybe the email is already taken?");
     }
   };
 

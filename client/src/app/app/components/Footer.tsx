@@ -6,7 +6,7 @@ const Footer = () => {
 
   if (isLoading) return null;
   return (
-    <div className="flex w-full justify-between text-gray-400 text-xs">
+    <div className="flex w-full justify-between text-gray-400 text-xs mt-2">
       <span>{me?.full_name}</span>
       <span>{me?.email}</span>
     </div>
