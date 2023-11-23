@@ -51,7 +51,7 @@ const EditUserModal = (props: Props) => {
   const isEditing = !!userIn;
 
   const handleSubmit = async () => {
-    if (!user.email || !user.full_name || !user.password) {
+    if (!user.email || !user.full_name) {
       toastError("Please fill in all fields");
       return;
     }
@@ -62,6 +62,7 @@ const EditUserModal = (props: Props) => {
       } else {
         await handleCreateUser(user);
       }
+      reset();
       closeModal();
     } catch (error) {
       console.error(error);
@@ -70,6 +71,7 @@ const EditUserModal = (props: Props) => {
   };
 
   const handleCancel = () => {
+    reset();
     closeModal();
   };
 

@@ -24,29 +24,31 @@ const ApplicantTable = (props: Props) => {
         </tr>
       </thead>
       <tbody>
-        {data?.map((applicant) => (
-          <tr className="border-b border-gray-200" key={applicant.id}>
-            <td className="py-4 px-6">{applicant.id}</td>
-            <td className="py-4 px-6">{applicant.full_name}</td>
-            <td className="py-4 px-6">{applicant.github_name}</td>
-            <td className="py-4 px-6">{applicant.repo_link}</td>
-            <td className="py-4 px-6">{formatDate(applicant.created_at)}</td>
-            <td className="py-4 px-6 flex gap-2 items-center">
-              <button
-                className="text-primary-color hover:text-secondary-color"
-                onClick={() => handleEditApplicant(applicant)}
-              >
-                <FaEdit size={20} />
-              </button>
-              <button
-                className="text-cancel-button-color hover:text-hover-cancel-button-color"
-                onClick={() => handleDeleteApplicant(applicant.id)}
-              >
-                <FaRegTrashAlt size={20} />
-              </button>
-            </td>
-          </tr>
-        ))}
+        {data
+          ?.sort((a, b) => (a > b ? -1 : 1))
+          .map((applicant) => (
+            <tr className="border-b border-gray-200" key={applicant.id}>
+              <td className="py-4 px-6">{applicant.id}</td>
+              <td className="py-4 px-6">{applicant.full_name}</td>
+              <td className="py-4 px-6">{applicant.github_name}</td>
+              <td className="py-4 px-6">{applicant.repo_link}</td>
+              <td className="py-4 px-6">{formatDate(applicant.created_at)}</td>
+              <td className="py-4 px-6 flex gap-2 items-center">
+                <button
+                  className="text-primary-color hover:text-secondary-color"
+                  onClick={() => handleEditApplicant(applicant)}
+                >
+                  <FaEdit size={20} />
+                </button>
+                <button
+                  className="text-cancel-button-color hover:text-hover-cancel-button-color"
+                  onClick={() => handleDeleteApplicant(applicant.id)}
+                >
+                  <FaRegTrashAlt size={20} />
+                </button>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

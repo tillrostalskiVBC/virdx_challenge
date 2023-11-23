@@ -24,29 +24,31 @@ const UserTable = (props: Props) => {
         </tr>
       </thead>
       <tbody>
-        {data?.map((user) => (
-          <tr className="border-b border-gray-200" key={user.id}>
-            <td className="py-4 px-6">{user.id}</td>
-            <td className="py-4 px-6">{user.email}</td>
-            <td className="py-4 px-6">{user.full_name}</td>
-            <td className="py-4 px-6">{formatDate(user.created_at)}</td>
-            <td className="py-4 px-6">{user.is_superuser ? "Yes" : "No"}</td>
-            <td className="py-4 px-6 flex gap-2 items-center">
-              <button
-                className="text-primary-color hover:text-secondary-color"
-                onClick={() => handleEditUser(user)}
-              >
-                <FaEdit size={20} />
-              </button>
-              <button
-                className="text-cancel-button-color hover:text-hover-cancel-button-color"
-                onClick={() => handleDeleteUser(user.id)}
-              >
-                <FaRegTrashAlt size={20} />
-              </button>
-            </td>
-          </tr>
-        ))}
+        {data
+          ?.sort((a, b) => a.id < b.id ? -1 : 1)
+          .map((user) => (
+            <tr className="border-b border-gray-200" key={user.id}>
+              <td className="py-4 px-6">{user.id}</td>
+              <td className="py-4 px-6">{user.email}</td>
+              <td className="py-4 px-6">{user.full_name}</td>
+              <td className="py-4 px-6">{formatDate(user.created_at)}</td>
+              <td className="py-4 px-6">{user.is_superuser ? "Yes" : "No"}</td>
+              <td className="py-4 px-6 flex gap-2 items-center">
+                <button
+                  className="text-primary-color hover:text-secondary-color"
+                  onClick={() => handleEditUser(user)}
+                >
+                  <FaEdit size={20} />
+                </button>
+                <button
+                  className="text-cancel-button-color hover:text-hover-cancel-button-color"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  <FaRegTrashAlt size={20} />
+                </button>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

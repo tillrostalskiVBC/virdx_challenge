@@ -40,6 +40,14 @@ const EditapplicantModal = (props: Props) => {
     );
   }, [applicantIn]);
 
+  const reset = () => {
+    setApplicant({
+      github_name: "",
+      repo_link: "",
+      full_name: "",
+    });
+  };
+
   const isEditing = !!applicantIn;
 
   const handleSubmit = async () => {
@@ -58,6 +66,7 @@ const EditapplicantModal = (props: Props) => {
       } else {
         await handleCreateApplicant(applicant);
       }
+      reset();
       closeModal();
     } catch (error) {
       console.error(error);
@@ -68,6 +77,7 @@ const EditapplicantModal = (props: Props) => {
   };
 
   const handleCancel = () => {
+    reset();
     closeModal();
   };
 
