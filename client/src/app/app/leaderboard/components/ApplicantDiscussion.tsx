@@ -59,34 +59,40 @@ const ApplicantDiscussion = (props: Props) => {
       </form>
       <div className="h-72 w-full overflow-y-auto">
         <div className="pr-4 space-y-1">
-          {applicant.discussion
-            .sort((a, b) => sortByDate(a.created_at, b.created_at))
-            .map((comment: DiscussionComment) => (
-              <div
-                key={comment.id}
-                className="border-b border-gray-200 py-2 w-full"
-              >
-                <div className="bg-sky-50 rounded p-2">
-                  <pre className="text-gray-700 font-sans">
-                    {comment.content}
-                  </pre>
-                </div>
-                <div className="flex flex-row text-xs items-center justify-between text-gray-300">
-                  <span>{comment.user.full_name}</span>
-                  <div className="flex items-center">
-                    <span>{formatDate(comment.created_at)}</span>
-                    {me?.id === comment.user.id && (
-                      <button
-                        onClick={() => handleDeleteComment(comment.id)}
-                        className="ml-2 text-red-500 hover:text-red-700"
-                      >
-                        <FaRegTrashAlt size={14} />
-                      </button>
-                    )}
+          {!applicant.discussion || applicant.discussion.length === 0 ? (
+            <div className="text-gray-400 text-center">
+              No comments yet. Be the first to comment!
+            </div>
+          ) : (
+            applicant.discussion
+              .sort((a, b) => sortByDate(a.created_at, b.created_at))
+              .map((comment: DiscussionComment) => (
+                <div
+                  key={comment.id}
+                  className="border-b border-gray-200 py-2 w-full"
+                >
+                  <div className="bg-sky-50 rounded p-2">
+                    <pre className="text-gray-700 font-sans">
+                      {comment.content}
+                    </pre>
+                  </div>
+                  <div className="flex flex-row text-xs items-center justify-between text-gray-300">
+                    <span>{comment.user.full_name}</span>
+                    <div className="flex items-center">
+                      <span>{formatDate(comment.created_at)}</span>
+                      {me?.id === comment.user.id && (
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className="ml-2 text-red-500 hover:text-red-700"
+                        >
+                          <FaRegTrashAlt size={14} />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+          )}
         </div>
       </div>
     </div>

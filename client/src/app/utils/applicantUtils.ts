@@ -1,7 +1,9 @@
 import { Applicant, Rating } from "../types";
 
 export const computeRanks = (applicants: Applicant[]) => {
-  const sortedApplicants = applicants.sort((a, b) => b.accuracy - a.accuracy);
+  const sortedApplicants = applicants.sort(
+    (a, b) => (b.accuracy || 0) - (a.accuracy || 0)
+  );
   sortedApplicants.forEach((applicant, index) => {
     applicant.rank = index + 1;
   });
