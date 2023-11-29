@@ -96,7 +96,7 @@ const ApplicantModal = (props: Props) => {
             <div className="flex mb-2 w-full justify-between border rounded p-2">
               <span className="font-semibold">Model Accuracy</span>
               <span className="text-xl font-bold text-complementary-primary-color">
-                {applicant.accuracy ? applicant.accuracy + "%" : "-"}
+                {applicant.accuracy ? applicant.accuracy : "-"}
               </span>
             </div>
             <div className="flex mb-2 w-full justify-between border rounded p-2">

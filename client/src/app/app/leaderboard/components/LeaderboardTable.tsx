@@ -75,7 +75,7 @@ const LeaderboardTable = ({ applicants }: Props) => {
       enableColumnFilter: false,
       cell: (info) => (
         <div className="w-full text-center text-complementary-primary-color">
-          {info.getValue() !== null ? info.getValue() + "%" : ""}
+          {info.getValue() !== null ? info.getValue() : ""}
         </div>
       ),
       meta: {
